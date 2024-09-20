@@ -1,0 +1,10 @@
+certifi==2024.8.30
+charset-normalizer==3.3.2
+greenlet==3.0.3
+idna==3.8
+playwright==1.46.0
+pyee==11.1.0
+python-dotenv==1.0.1
+requests==2.32.3
+typing_extensions==4.12.2
+urllib3==2.2.2
