@@ -37,8 +37,8 @@ def summarize_article(article_text: str) -> str:
     )
 
     summarize_template = ChatPromptTemplate.from_messages([
-        ("system", "You are a helpful AI assistant that summarizes news articles concisely and accurately."),
-        ("human", "Please summarize the following news article in 3-4 sentences:\n\n{article_text}")
+        ("system", "You are a helpful AI assistant that summarizes news articles concisely and accurately. It's very important that your summary of the article is in Swedish as the summaries will be added to a swedish news paper website. You will provide a 3-4 sentence summary. The output should not include a discription of the summary like: here's the 3-4 sentence summary. Only output the summary back and nothing more."),
+        ("human", "Please summarize the following news article:\n\n{article_text}")
     ])
 
     messages = summarize_template.format_messages(article_text=article_text)
