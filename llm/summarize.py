@@ -5,6 +5,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage
 import sqlite3
 import datetime
+import random
 
 def load_env_variables():
     """
@@ -55,7 +56,8 @@ def create_summary_table(conn):
                   url TEXT,
                   scraping_date TEXT,
                   summary TEXT,
-                  summary_date TEXT)''')
+                  summary_date TEXT,
+                  img_id INTEGER)''')  # Added img_id column
     conn.commit()
 
 def summarize_unsummarized_posts(db_path):
@@ -79,6 +81,7 @@ def summarize_unsummarized_posts(db_path):
         - scraping_date (TEXT): The date when the article was scraped
         - summary (TEXT): The generated summary of the article
         - summary_date (TEXT): The date when the summary was generated
+        - img_id (INTEGER): A random number between 0 and 7
 
     The function compares the posts table with the summarized_posts table
     to identify unsummarized articles, processes them, and inserts the results
@@ -103,12 +106,13 @@ def summarize_unsummarized_posts(db_path):
         summary = summarize_article(content)
         summary_date = datetime.date.today().isoformat()
         
+        img_id = random.randint(0, 7)  # Generate a random img_id between 0 and 7
+        
         # Insert into summarized_posts table
         c.execute('''INSERT INTO summarized_posts 
-                     (title, date, content, url, scraping_date, summary, summary_date)
-                     VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                  (title, date, content, url, scraping_date, summary, summary_date))
-        
+                     (title, date, content, url, scraping_date, summary, summary_date, img_id)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
+                  (title, date, content, url, scraping_date, summary, summary_date, img_id))  # Added img_id
         print(f"Summarized and stored: {title}")
     
     conn.commit()
@@ -135,6 +139,28 @@ def display_sample_summaries(db_path, sample_size=5):
     
     conn.close()
 
+def check_summarized_posts(db_path):
+    """
+    Check the summarized_posts table to ensure img_id numbers are present.
+
+    Args:
+        db_path (str): The file path to the SQLite database.
+    """
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    
+    c.execute('''SELECT title, img_id 
+                 FROM summarized_posts 
+                 WHERE img_id IS NOT NULL''')
+    
+    posts_with_img_id = c.fetchall()
+    
+    print(f"\nPosts with img_id:\n")
+    for title, img_id in posts_with_img_id:
+        print(f"Title: {title}, img_id: {img_id}")
+    
+    conn.close()
+
 # Example usage
 if __name__ == "__main__":
     db_path = '../blog_posts.db'  # Adjust this path as needed
@@ -143,3 +169,6 @@ if __name__ == "__main__":
     
     # Display sample summaries
     display_sample_summaries(db_path)
+    
+    # Check summarized posts for img_id
+    check_summarized_posts(db_path)

@@ -15,4 +15,5 @@ class Article(Base):
     scraping_date = Column(String)
     summary = Column(String)
     summary_date = Column(String)
+    img_id = Column(Integer)
 

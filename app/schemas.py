@@ -11,6 +11,7 @@ class ArticleBase(BaseModel):
 class Article(ArticleBase):
     summary: str
     summary_date: str
+    img_id: int
 
 class ArticleFull(Article):
     date: str
