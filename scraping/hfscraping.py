@@ -141,7 +141,7 @@ def clean_blog_content(content):
     return content
 
 def create_database():
-    conn = sqlite3.connect('../blog_posts.db')
+    conn = sqlite3.connect('blog_posts.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS posts
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,

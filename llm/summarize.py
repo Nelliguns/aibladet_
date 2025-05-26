@@ -163,7 +163,7 @@ def check_summarized_posts(db_path):
 
 # Example usage
 if __name__ == "__main__":
-    db_path = '../blog_posts.db'  # Adjust this path as needed
+    db_path = 'blog_posts.db'  # Adjust this path as needed
     summarize_unsummarized_posts(db_path)
     print("All new posts have been summarized and stored in the database.")
     
