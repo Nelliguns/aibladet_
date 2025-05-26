@@ -18,7 +18,7 @@ def find_posts(url):
     href_list = []
 
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
         
@@ -63,7 +63,7 @@ def scrape_blog_post(url):
     }
     """
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
         
