@@ -7,7 +7,8 @@ def get_article_by_id(db: Session, article_id: int):
 
 
 def get_articles(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Article).offset(skip).limit(limit).all()
+    # return db.query(models.Article).offset(skip).limit(limit).all()
+    return db.query(models.Article).order_by(models.Article.id.desc()).offset(skip).limit(limit).all()
 
 def create_article(db: Session, article: schemas.ArticleBase):
     db_article = models.Article(**article.model_dump())
